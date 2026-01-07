@@ -6,7 +6,7 @@ use warnings;
 use 5.030000;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Time::HiRes qw(usleep);
 use Try::Tiny qw(try catch);

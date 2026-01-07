@@ -6,6 +6,11 @@
 /Makefile
 /pm_to_blib
 
+/Build.PL
+/META.json
+/META.yml
+*.tar.gz
+
 /carton.lock
 /.carton/
 /local/

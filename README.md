@@ -24,20 +24,12 @@ Retry::Policy - Simple retry wrapper with exponential backoff and jitter
 Small, dependency-light retry helper for backend and system code where
 transient failures are expected.
 
-The module provides a consistent way to apply retry policies with
-exponential backoff and optional jitter, while keeping calling code
-simple and readable.
-
 # DESIGN NOTES
 
-- Exponential backoff with a maximum cap is a common production default
-  for transient failures.
-- Full jitter helps avoid synchronized retries (thundering herd) across
-  multiple workers or hosts.
-- Defaults are intentionally conservative; callers should tune retry
-  behavior per dependency (database, HTTP service, filesystem, etc.).
-- Validation is strict: invalid configurations fail fast rather than
-  producing undefined retry behavior.
+- Exponential backoff with a maximum cap is a common production default for transient failures.
+- Full jitter helps avoid synchronized retries (thundering herd) across multiple workers or hosts.
+- Defaults are intentionally conservative; callers should tune retry behavior per dependency (database, HTTP service, filesystem, etc.).
+- Validation is strict: invalid configurations fail fast rather than producing undefined retry behavior.
 
 # PRACTICAL USE CASES
 
@@ -51,8 +43,7 @@ simple and readable.
         max_delay_ms  => 5000,
         retry_on      => sub {
             my ($err) = @_;
-            return ($err =~ /timeout|temporarily unavailable|connection reset/i)
-                ? 1 : 0;
+            return ($err =~ /timeout|temporarily unavailable|connection reset/i) ? 1 : 0;
         },
     );
 
@@ -73,16 +64,12 @@ simple and readable.
         max_delay_ms  => 8000,
         retry_on      => sub {
             my ($err) = @_;
-            return ($err =~ /server has gone away|lost connection|timeout/i)
-                ? 1 : 0;
+            return ($err =~ /server has gone away|lost connection|timeout/i) ? 1 : 0;
         },
     );
 
     my $dbh = $p->run(sub {
-        my $dbh = DBI->connect(
-            $dsn, $user, $pass,
-            { RaiseError => 1, PrintError => 0 }
-        );
+        my $dbh = DBI->connect($dsn, $user, $pass, { RaiseError => 1, PrintError => 0 });
         return $dbh;
     });
 
@@ -108,4 +95,3 @@ simple and readable.
 # LICENSE
 
 Same terms as Perl itself.
-

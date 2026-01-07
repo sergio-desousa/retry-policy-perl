@@ -3,6 +3,9 @@ package Retry::Policy;
 use strict;
 use warnings;
 
+use 5.030000;
+
+
 our $VERSION = '0.01';
 
 use Time::HiRes qw(usleep);
